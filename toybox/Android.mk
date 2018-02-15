@@ -231,13 +231,23 @@ LOCAL_SRC_FILES += \
     toys/lsb/dmesg.c
 endif
 
-ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 25; echo $$?),0)
-# Android 8.0/8.1 had some tools in different paths
-LOCAL_SRC_FILES += \
-    toys/net/ftpget.c
+# Android 8.0 had some tools in different paths
+ifneq ($(wildcard $(LOCAL_PATH)/toys/pending/ftpget.c),)
+LOCAL_SRC_FILES += toys/pending/ftpget.c
 else
-LOCAL_SRC_FILES += \
-    toys/pending/ftpget.c
+LOCAL_SRC_FILES += toys/net/ftpget.c
+endif
+
+ifneq ($(wildcard $(LOCAL_PATH)/toys/pending/dmesg.c),)
+LOCAL_SRC_FILES += toys/pending/dmesg.c
+else
+LOCAL_SRC_FILES += toys/lsb/dmesg.c
+endif
+
+ifneq ($(wildcard $(LOCAL_PATH)/toys/pending/chrt.c),)
+LOCAL_SRC_FILES += toys/pending/chrt.c
+else
+LOCAL_SRC_FILES += toys/other/chrt.c
 endif
 
 # Account for master branch changes pulld into CM14.1
@@ -252,7 +262,6 @@ LOCAL_SRC_FILES += \
     toys/net/rfkill.c \
     toys/net/tunctl.c \
     toys/other/setfattr.c \
-    toys/pending/chrt.c \
     toys/pending/fdisk.c \
     toys/pending/getfattr.c \
     toys/pending/host.c \
