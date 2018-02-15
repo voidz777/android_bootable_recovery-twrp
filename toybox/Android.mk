@@ -250,6 +250,10 @@ else
 LOCAL_SRC_FILES += toys/other/chrt.c
 endif
 
+ifneq ($(wildcard $(LOCAL_PATH)/toys/pending/gzip.c),)
+LOCAL_SRC_FILES += toys/pending/gzip.c
+endif
+
 # Account for master branch changes pulld into CM14.1
 ifneq ($(CM_BUILD),)
 LOCAL_SRC_FILES += \
@@ -339,7 +343,7 @@ LOCAL_CFLAGS += -DTOYBOX_VERSION=\"$(toybox_version)\"
 
 LOCAL_CLANG := true
 
-LOCAL_SHARED_LIBRARIES += libcutils libselinux
+LOCAL_SHARED_LIBRARIES += libcutils libselinux libz
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 26; echo $$?),0)
 LOCAL_CFLAGS += \
