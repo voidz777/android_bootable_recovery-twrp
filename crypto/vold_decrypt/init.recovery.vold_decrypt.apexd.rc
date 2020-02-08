@@ -1,4 +1,5 @@
-service sys_servicemanager /system/bin/servicemanager
+service sys_apexd /system/bin/apexd --bootstrap
+    critical
     user root
     group root
     setenv PATH /system/bin
